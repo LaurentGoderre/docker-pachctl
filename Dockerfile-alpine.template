@@ -1,0 +1,29 @@
+# vim:set ft=dockerfile:
+FROM alpine:%%ALPINE-VERSION%%
+
+ENV PACHCTL_VERSION %%PACHCTL_VERSION%%
+
+RUN addgroup -g 1000 pachyderm \
+	&& adduser -u 1000 -G pachyderm -s /bin/sh -D pachyderm \
+	&& apk add --no-cache --virtual .build-deps \
+		git \
+		go \
+		make \
+		musl-dev \
+	&& mkdir /go \
+	&& export GOPATH=/go \
+	&& export TEMPPATH=$PATH \
+	&& export PATH=/go/bin:/usr/local/go/bin:$PATH \
+	&& go get github.com/laher/goxc \
+	&& go get -v github.com/pachyderm/pachyderm \
+	&& cd /go/src/github.com/pachyderm/pachyderm \
+	&& make goxc-build \
+	&& cp /go/src/github.com/pachyderm/pachyderm/build/snapshot/linux_amd64/pachctl /usr/local/bin \
+	&& cd .. \
+	&& rm -rf src \
+	&& apk del .build-deps \
+	&& export PATH=$TEMPPATH \
+	&& unset TEMPPATH \
+	&& unset GOPATH \
+
+CMD ["pachctl"]
