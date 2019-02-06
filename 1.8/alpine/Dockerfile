@@ -1,0 +1,36 @@
+# vim:set ft=dockerfile:
+FROM golang:alpine3.9 as build
+
+ENV PACHCTL_VERSION 1.8.3
+
+RUN ARCH="$(arch)" \
+  && case "${ARCH##*-}" in \
+    x86_64) ARCH='amd64';; \
+    ppc64el) ARCH='ppc64le';; \
+    s390x) ARCH='s390x';; \
+    x86) ARCH='386';; \
+    *) echo "unsupported architecture (${ARCH})"; exit 1 ;; \
+	esac \
+  && apk add --no-cache --virtual .build-deps \
+        git \
+        make \
+  && go get -v github.com/laher/goxc \
+  && go get -v github.com/pachyderm/pachyderm \
+  && cd $GOPATH/src/github.com/pachyderm/pachyderm \
+  && make goxc-build \
+  && cp $GOPATH/src/github.com/pachyderm/pachyderm/build/snapshot/linux_${ARCH}/pachctl /usr/local/bin \
+  && cd / \
+  && rm -r $GOPATH/* \
+  && rm -r ~/.cache \
+  && apk del .build-deps
+
+FROM alpine:3.9
+
+RUN addgroup -g 1000 pachyderm \
+  && adduser -u 1000 -G pachyderm -s /bin/sh -D pachyderm
+
+COPY --from=build /usr/local/bin/pachctl /usr/local/bin
+
+USER pachyderm
+
+CMD ["pachctl"]
