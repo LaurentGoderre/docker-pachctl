@@ -25,12 +25,10 @@ RUN mkdir /go \
 	&& export TEMPPATH=$PATH \
 	&& export PATH=/go/bin:/usr/local/go/bin:$PATH \
  	&& go get github.com/laher/goxc \
-	&& go get -v github.com/pachyderm/pachyderm \
-	&& cd /go/src/github.com/pachyderm/pachyderm
-	#&& make deps
+	&& go get -v github.com/pachyderm/pachyderm
 
-
-RUN make goxc-build \
+RUN cd /go/src/github.com/pachyderm/pachyderm \
+	&& make goxc-build \
 	&& cp /go/src/github.com/pachyderm/pachyderm/build/snapshot/linux_amd64/pachctl /usr/local/bin \
 	&& cd / \
 	&& apt-get remove \
