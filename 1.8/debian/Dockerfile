@@ -26,8 +26,8 @@ RUN mkdir /go \
 	&& export PATH=/go/bin:/usr/local/go/bin:$PATH \
  	&& go get github.com/laher/goxc \
 	&& go get -v github.com/pachyderm/pachyderm \
-	&& cd /go/src/github.com/pachyderm/pachyderm \
-	&& make deps
+	&& cd /go/src/github.com/pachyderm/pachyderm
+	#&& make deps
 
 
 RUN make goxc-build \
