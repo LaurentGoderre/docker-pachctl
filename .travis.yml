@@ -31,5 +31,6 @@ script:
 
 after_script:
   - docker images
+  - docker save "$image"
 
 # vim:set et ts=2 sw=2:
