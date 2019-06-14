@@ -1,7 +1,7 @@
 # vim:set ft=dockerfile:
 FROM golang:alpine3.9 as build
 
-ENV PACHCTL_VERSION 1.8.4
+ENV PACHCTL_VERSION 1.8.5
 
 ENV KUBECTL_VERSION v1.14.3
 
