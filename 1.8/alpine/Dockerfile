@@ -1,9 +1,9 @@
 # vim:set ft=dockerfile:
 FROM golang:alpine3.9 as build
 
-ENV PACHCTL_VERSION 1.8.3
+ENV PACHCTL_VERSION 1.8.4
 
-ENV KUBECTL_VERSION v1.13.3
+ENV KUBECTL_VERSION v1.14.3
 
 RUN ARCH="$(arch)" \
   && case "${ARCH##*-}" in \
@@ -14,6 +14,8 @@ RUN ARCH="$(arch)" \
     *) echo "unsupported architecture (${ARCH})"; exit 1 ;; \
   esac \
   && apk add --no-cache --virtual .build-deps \
+    g++ \
+    gcc \
     git \
     make \
   && go get -v github.com/laher/goxc \
