@@ -20,7 +20,7 @@ RUN set -x \
   && go get -v -d github.com/pachyderm/pachyderm \
   && cd $GOPATH/src/github.com/pachyderm/pachyderm \
   && git checkout -q v${PACHCTL_VERSION} \
-  && make goxc-build \
+  && make VERSION_ADDITIONAL="" goxc-build \
   && cp $GOPATH/src/github.com/pachyderm/pachyderm/build/snapshot/linux_${ARCH}/pachctl /usr/local/bin \
   && curl -L https://storage.googleapis.com/kubernetes-release/release/${KUBECTL_VERSION}/bin/linux/${ARCH}/kubectl -o /usr/local/bin/kubectl \
   && chmod +x /usr/local/bin/kubectl \
