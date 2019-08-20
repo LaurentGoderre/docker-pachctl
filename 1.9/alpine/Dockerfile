@@ -1,9 +1,9 @@
 # vim:set ft=dockerfile:
 FROM golang:alpine3.9 as build
 
-ENV PACHCTL_VERSION 1.9.2
+ENV PACHCTL_VERSION 1.9.3
 
-ENV KUBECTL_VERSION v1.15.1
+ENV KUBECTL_VERSION v1.15.3
 
 RUN ARCH="$(arch)" \
   && case "${ARCH##*-}" in \
