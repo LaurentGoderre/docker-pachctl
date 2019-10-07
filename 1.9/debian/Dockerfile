@@ -1,7 +1,7 @@
 # vim:set ft=dockerfile:
 FROM golang:stretch as build
 
-ENV PACHCTL_VERSION 1.9.6
+ENV PACHCTL_VERSION 1.9.7
 
 ENV KUBECTL_VERSION v1.16.1
 
