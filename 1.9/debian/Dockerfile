@@ -1,9 +1,9 @@
 # vim:set ft=dockerfile:
 FROM golang:stretch as build
 
-ENV PACHCTL_VERSION 1.9.3+6221e9ed57a10b39d363e0e97cdd6e4e41796af2
+ENV PACHCTL_VERSION 1.9.3-6221e9ed57a10b39d363e0e97cdd6e4e41796af2
 
-ENV KUBECTL_VERSION v1.15.3
+ENV KUBECTL_VERSION v1.16.1
 
 RUN set -x \
   && ARCH= && dpkgArch="$(dpkg --print-architecture)" \
